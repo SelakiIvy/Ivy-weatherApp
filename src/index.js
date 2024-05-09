@@ -7,18 +7,18 @@ function displayTemperature(response) {
   let windSpeedElement = document.querySelector("#wind-speed");
   let iconElement = document.querySelector("#icon");
   cityElement.innerHTML = response.data.city;
+  let currentDateELement = document.querySelector("#current-date");
+  let currentDate = new Date();
+  currentDateELement.innerHTML = formatDate(currentDate);
   temperatureElement.innerHTML = temperature;
+
   descriptionElement.innerHTML = response.data.condition.description;
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
 }
 
-function search(event) {
-  event.preventDefault();
-  let searchInputElement = document.querySelector("#search-input");
-  let city = searchInputElement.value;
-
+function searchCity(city) {
   let apiKey = "8bbcotfba96da392a1aab9e240348681";
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
@@ -52,14 +52,14 @@ function formatDate(date) {
   return `${formattedDay} ${hours}:${minutes}`;
 }
 
+function search(event) {
+  event.preventDefault();
+  let searchInputElement = document.querySelector("#search-input");
+  let city = searchInputElement.value;
+
+  searchCity(searchInput.value);
+}
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
-let currentDateELement = document.querySelector("#current-date");
-let currentDate = new Date();
-
-currentDateELement.innerHTML = formatDate(currentDate);
-let searchFormElement = document.querySelector("#search-form");
-searchFormElement.addEventListener("submit", searchSubmit);
-
-searchCity("Midrand");
+searchCity("Johannesburg");
